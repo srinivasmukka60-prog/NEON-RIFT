@@ -1,0 +1,6 @@
+{
+  "name": "NEON RIFT",
+  "description": "Advanced mobile-first online multiplayer sci-fi arena game with real-time combat, energy crystal collection, control zones, and persistent progression.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

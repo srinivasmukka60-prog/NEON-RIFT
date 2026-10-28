@@ -1,0 +1,168 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Public and player progression profile for NEON RIFT",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique Firebase Auth User UID",
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Player in-game callsign",
+          "minLength": 2,
+          "maxLength": 24,
+          "pattern": "^[a-zA-Z0-9_ -]+$"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "Avatar preset identifier",
+          "maxLength": 32
+        },
+        "level": {
+          "type": "number",
+          "description": "Current player progression level"
+        },
+        "xp": {
+          "type": "number",
+          "description": "Accumulated experience points"
+        },
+        "totalMatches": {
+          "type": "number",
+          "description": "Total online and bot matches played"
+        },
+        "wins": {
+          "type": "number",
+          "description": "Total 1st place victories achieved"
+        },
+        "selectedCharacter": {
+          "type": "string",
+          "description": "Currently active hero selection",
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of account creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last profile update"
+        }
+      },
+      "required": ["id", "displayName", "avatar", "level", "xp", "totalMatches", "wins"]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Authoritative match results and ranking record",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Player UID",
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Player callsign",
+          "maxLength": 24
+        },
+        "avatar": {
+          "type": "string",
+          "description": "Player avatar ID",
+          "maxLength": 32
+        },
+        "score": {
+          "type": "number",
+          "description": "Total competitive points or high score"
+        },
+        "wins": {
+          "type": "number",
+          "description": "Total match victories"
+        },
+        "level": {
+          "type": "number",
+          "description": "Current player level"
+        },
+        "period": {
+          "type": "string",
+          "description": "Leaderboard category (weekly or all_time)",
+          "enum": ["all_time", "weekly"]
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of ranking calculation"
+        }
+      },
+      "required": ["userId", "displayName", "score", "wins", "level", "period"]
+    },
+    "MatchRecord": {
+      "title": "MatchRecord",
+      "description": "Individual completed match summary record",
+      "type": "object",
+      "properties": {
+        "matchId": {
+          "type": "string",
+          "description": "Unique room match identifier",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "Participant UID",
+          "maxLength": 128
+        },
+        "roomCode": {
+          "type": "string",
+          "description": "Arena room code",
+          "maxLength": 16
+        },
+        "score": {
+          "type": "number",
+          "description": "Final score earned in match"
+        },
+        "rank": {
+          "type": "number",
+          "description": "Finishing rank (1-8)"
+        },
+        "crystalsCollected": {
+          "type": "number",
+          "description": "Number of energy crystals captured"
+        },
+        "zonesCaptured": {
+          "type": "number",
+          "description": "Control zone capture score"
+        },
+        "character": {
+          "type": "string",
+          "description": "Character used during match",
+          "maxLength": 32
+        },
+        "xpEarned": {
+          "type": "number",
+          "description": "Experience granted by match outcome"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when match completed"
+        }
+      },
+      "required": ["matchId", "userId", "score", "rank", "character"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document storing level, XP, wins, and callsign"
+    },
+    "/leaderboard/{entryId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Global competitive leaderboard entries"
+    },
+    "/matches/{matchId}": {
+      "schema": "MatchRecord",
+      "description": "Verified match completion logs"
+    }
+  }
+}
